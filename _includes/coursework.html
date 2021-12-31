@@ -1,0 +1,58 @@
+
+
+<div class="user-details">
+  <h1> Selected Coursework</h1>
+  <h2> GPA 5.0/5.0</h2>
+</div>
+<button class="accordion mit">Computer Science</button>
+<div class="panel">
+  <ul>
+    <li><a href="http://student.mit.edu/catalog/m6a.html#6.031" target="_blank">6.031</a> Software Construction</li>
+    <li><a href="http://student.mit.edu/catalog/m6a.html#6.08" target="_blank">6.08</a> Embedded Systems</li>
+    <li><a href="http://student.mit.edu/catalog/m16b.html#16.632" target="_blank">16.632</a> Introduction to Autonomous Machines</li>
+    <li><a href="http://student.mit.edu/catalog/m6a.html#6.006" target="_blank">6.006</a> Algorithms</li>
+  </ul>
+</div>
+<button class="accordion mit">Physics</button>
+<div class="panel">
+  <ul>
+    <li><a href="http://student.mit.edu/catalog/m8a.html#8.04" target="_blank">8.04</a> & <a href="http://student.mit.edu/catalog/m8a.html#8.05" target="_blank">8.05</a> Quantum Physics I/II</li>
+    <li><a href="http://student.mit.edu/catalog/m8a.html#8.03" target="_blank">8.03</a> Oscillations and Waves</li>
+  </ul>
+</div>
+<button class="accordion mit">Mathematics</button>
+<div class="panel">
+  <ul>
+    <li><a href="http://student.mit.edu/catalog/m18a.html#18.03" target="_blank">18.03</a> Differential Equations</li>
+    <li><a href="http://student.mit.edu/catalog/m18a.html#18.06" target="_blank">18.06</a> Linear Algebra</li>
+  </ul>
+</div>
+<button class="accordion mit">Humanities</button>
+<div class="panel">
+  <ul>
+    <li><a href="http://student.mit.edu/catalog/m11a.html#11.011" target="_blank">11.011</a> Negotiation</li>
+    <li><a href="http://student.mit.edu/catalog/m11a.html#11.005" target="_blank">11.005</a> International Development</li>
+    <li><a href="http://student.mit.edu/catalog/m24b.html#24.900" target="_blank">24.900</a> Linguistics</li>
+    
+  </ul>
+</div>
+<script type="text/javascript">
+  var acc = document.getElementsByClassName("accordion");
+  var i;
+
+  for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    /* Toggle between adding and removing the "active" class,
+    to highlight the button that controls the panel */
+    this.classList.toggle("active");
+
+    /* Toggle between hiding and showing the active panel */
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+  } 
+</script>

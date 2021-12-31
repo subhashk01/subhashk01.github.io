@@ -1,0 +1,18 @@
+# Site settings
+title: Subhash Kantamneni
+description: Subhash Kantamneni's Personal Website
+# baseurl: "/particle" # the subpath of your site, e.g. /blog
+url: "http://localhost:3000" # the base hostname & protocol for your site e.g. http://willianjusten.com.br
+
+# User settings
+username: Subhash Kantamneni
+user_description: Hi, I’m Subhash! I'm an undergraduate at MIT studying Physics and Computer Science originally from Jupiter, Florida. I love working on projects that leverage computer science to solve physical problems to positively impact society; right now the projects that I’m most interested in contributing to are Nuclear Fusion, the Mars Expedition, and Autonomous Vehicles. Outside of my academics I love meeting interesting people, reading memoirs, teaching and mentoring,  playing basketball and ultimate frisbee, traveling to foreign countries, and exploring nature.
+user_title: Undergrad @ MIT
+email: subhashk@mit.edu
+github_username: subhashk01
+
+# Google-analytics
+google-analytics:
+  id: "G-7GVV915TM7"
+
+exclude: ['package.json', 'src' , 'node_modules']

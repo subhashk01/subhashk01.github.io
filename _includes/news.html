@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 15px;
+}
+
+.column {
+  flex: 100%;
+  max-width: 100%;
+}
+
+.column img {
+  vertical-align: middle;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: black;
+}
+
+.container:hover .overlay {
+  opacity: 0.75;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* Tablet Styles */
+@media only screen and (min-width: 480px) {
+    .column {
+      flex: 50%;
+      max-width: 50%;
+    }
+}
+ 
+ 
+/* Desktop Styles */
+@media only screen and (min-width: 1024px) {
+    .column {
+      flex: 33.3%;
+      max-width: 33.3%;
+    }
+}
+    
+
+</style>
+</head>
+<body>
+
+<div class="user-details">
+    <h1> In the News </h1>
+</div>
+
+<div class = "row">
+    <div class = "column">
+        <a href = "https://news.mit.edu/2021/intro-fast-paced-world-artificial-intelligence-0119" target = "_blank">
+            <div class = "container">
+                <img src = "../assets/img/mit-news-article.png" class = "image">
+                <div class = "overlay">
+                    <div class = "text"> "An Intro to the Fast-Paced World of Artificial Intelligence" <br> <br> MIT News</div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class = "column">
+        <a href = "https://www.palmbeachpost.com/story/news/education/2020/05/31/suncoast-valedictorian-already-reaching-for-stars/41751861/" target = "_blank">
+            <div class = "container">
+                <img src = "../assets/img/rsi-photo.jpeg" class = "image">
+                <div class = "overlay">
+                    <div class = "text"> 
+                    "Suncoast Valedictorian Already Reaching for the Stars"
+                    <br> <br>
+                    Palm Beach Post
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class = "column">
+        <a href = "https://twitter.com/pbcsd/status/1271199321954942981?lang=en" target="_blank">
+            <div class = "container">
+                <img src = "../assets/img/pbc-schools.jpg" class = "image">
+                <div class = "overlay">
+                    <div class = "text"> 
+                    "Celebrating with Subhash Kantamneni" 
+                    <br> <br>
+                    Palm Beach County School District
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
+
+<!--
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+
+
+.image-grid{
+    --gap:16 px;
+    --num-cols:3;
+    --row-height: 300px;
+
+    box-sizing:border-box;
+    padding: var(--gap);
+
+    display:grid;
+    grid-template-columns: repeat(var(--num-cols), 1fr);
+    grid-auto-rows: var(--row-height);
+
+    gap:var(--gap);
+}
+
+.image-grid > img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: #008CBA;
+}
+
+.image-grid:hover .overlay {
+  opacity: 1;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+</style>
+</head>
+<body>
+
+    <div class="user-details">
+        <h1> In the News </h1>
+    </div>
+
+<div class="container">
+  <a href="https://www.qries.com/">
+    <img src="/JPL/JPL-Logo.jpeg" alt="Avatar" class="image">
+    <div class="overlay">
+        <div class="text">Hello World</div>
+    </div>
+  </a>
+</div>
+
+    <div class = "image-grid">
+        <img src="/JPL/JPL-Logo.jpeg" alt="JPL">
+        <div class="overlay">
+            <div class="text">Hello World</div>
+        </div>
+        <img src="/JPL/JPL-Logo.jpeg" alt="JPL">
+        <img src="/JPL/JPL-Logo.jpeg" alt="JPL">
+        <img src="/JPL/JPL-Logo.jpeg" alt="JPL">
+    </div>
+
+
+
+
+</body>
+</html>
+-->
+
