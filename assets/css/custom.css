@@ -10,7 +10,7 @@
 
 
 
-
+/*
 .accordion.mit{
   background-color: #eee;
   color: #444;
@@ -18,12 +18,29 @@
   padding: 18px;
   width: 100%;
   border: none;
-  text-align: middle;
+  display:block;
+  text-align: center;
   outline: 0.01rem solid;
   font-size: 1.25em;
   transition: 0.4s;
   font-weight:bold;
 
+}
+*/
+
+.accordion.mit {
+  display: block;
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  margin: auto;
+  padding: 18px;
+  width: 100%;
+  text-align: center;
+  outline: none;
+  transition: 0.4s;
+  font-size: 1.25em;
+  font-weight:bold;
 }
 
 
