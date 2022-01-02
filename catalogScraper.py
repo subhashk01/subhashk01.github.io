@@ -53,7 +53,15 @@ def create_dependencies(classes, prereqs, exceptions = {}):
     
     return classesPrereqs
 
-course8exceptions = {'8.01':['8.02', '8.021', '8.022'], '8.02':['8.03', '8.033']}
 
-classesPrereqs = create_dependencies(classes,prereqs,course8exceptions)
+'''
+Generates dictionary that has keys of courses 
+and values that are the dependent courses
+'''
+def generateClassesPrereqs(course, course_exceptions):
+    classes, prereqs = scraper(8)
+    classesPrereqs = create_dependencies(classes,prereqs,course_exceptions)
+    return classesPrereqs
+
+
 
