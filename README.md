@@ -1,4 +1,4 @@
-###Creating Graphs for MIT Classes
+## **Creating Graphs for MIT Classes**
 
 This project aims to create dependency graphs for the classes in various majors at MIT, like the one shown below for MIT's Physics Major
 ![image](course-8-graph.png)
