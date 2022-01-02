@@ -3,7 +3,12 @@ from bs4 import BeautifulSoup
 import re
 
 
+'''
+Accesses the data from the student catalog for a course number
+and returns every course and its direct prereqs
+'''
 def scraper(course):
+    
     URL = "http://student.mit.edu/catalog/m"+str(course)+"a.html"
     page = requests.get(URL)
 
@@ -23,6 +28,15 @@ def scraper(course):
 classes, prereqs = scraper(8)
 
 
+'''
+Returns a dictionay whos keys are classes and whos 
+values are the direct prereq of the key classes. 
+
+classes: a list of courses
+prereqs: string of full prereqs to be parsed
+exceptions: a dictionary of the form prereq: all classes with that prereq
+to add in some prereqs manually if needed
+'''
 def create_dependencies(classes, prereqs, exceptions = {}):
     anyCourse = re.compile(r'([\d]{1,2}[\.][\d]+)')
 
@@ -42,5 +56,4 @@ def create_dependencies(classes, prereqs, exceptions = {}):
 course8exceptions = {'8.01':['8.02', '8.021', '8.022'], '8.02':['8.03', '8.033']}
 
 classesPrereqs = create_dependencies(classes,prereqs,course8exceptions)
-print(classesPrereqs)
 
