@@ -2,40 +2,45 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
-URL = "http://student.mit.edu/catalog/m8a.html"
-page = requests.get(URL)
 
-soup = BeautifulSoup(page.content, "html.parser")
-results = soup.text.split('\n')
-#print(results[30:60])
-classes = []
-prereqs = []
-for i in range(len(results)):
-    result = results[i]
-    if result[:2]=='8.':
-        classes.append(result)
-    if result[:7]=='Prereq:':
-        prereqs.append(result)
+def scraper(course):
+    URL = "http://student.mit.edu/catalog/m"+str(course)+"a.html"
+    page = requests.get(URL)
 
-anyCourse = re.compile(r'[\d]{1,2}[\.][\d]+')
-print(anyCourse.findall('18.03 drummers, 8.07 beatles, 29, 123'))
-classesPrereqs = {}
-for i in range(len(classes)):
-    reqs = anyCourse.findall(prereqs[i])
-    miniRes = anyCourse.findall(classes[i])
-    if len(miniRes)>0:
-        className = miniRes[0]
-        classesPrereqs[className] = reqs
-    else:
-        print(miniRes)
+    soup = BeautifulSoup(page.content, "html.parser")
+    results = soup.text.split('\n')
+
+    classes = []
+    prereqs = []
+    for i in range(len(results)):
+        result = results[i]
+        if result[:2]==str(course)+'.':
+            classes.append(result)
+        if result[:7]=='Prereq:':
+            prereqs.append(result)
+    return classes, prereqs
+
+classes, prereqs = scraper(8)
+
+
+def create_dependencies(classes, prereqs, exceptions = {}):
+    anyCourse = re.compile(r'([\d]{1,2}[\.][\d]+)')
+
+    classesPrereqs = {}
+    for i in range(len(classes)):
+        reqs = anyCourse.findall(prereqs[i])
+        miniRes = anyCourse.findall(classes[i])
+        if len(miniRes)>0:
+            className = miniRes[0]
+            classesPrereqs[className] = reqs
+    for exception in exceptions.keys():
+        for className in exceptions[exception]:
+            classesPrereqs[className].append(exception)
+    
+    return classesPrereqs
+
+course8exceptions = {'8.01':['8.02', '8.021', '8.022'], '8.02':['8.03', '8.033']}
+
+classesPrereqs = create_dependencies(classes,prereqs,course8exceptions)
 print(classesPrereqs)
 
-
-'''
-job_elements = soup.find_all('a')
-
-
-results = soup.findAll("div", 'contentleft')
-newResults = [result.text for result in results]
-print(newResults)
-'''
