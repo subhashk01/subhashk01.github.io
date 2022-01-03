@@ -13,13 +13,13 @@ I utilized the Plotly and iGraph Python libraries extensively for this project.
 Hope you enjoy!
 
 <br> <br> <br>
-Further details about the graphs: 
+*Further details about the graphs:*
 
-Some simplifications were made to this model. Some classes in a major depend on classes outside of that major. For example
+*Some simplifications were made to this model. Some classes in a major depend on classes outside of that major. For example
 8.04 Quantum Physics I (a physics course) is dependent on 18.03 Differential Equations (a math course). Those dependencies were
 ignored for visual simplicity. Also, some more advanced classes only require "permission of instructor." Those classes were also ignored
-because they are not taken by the average undergraduate at MIT and also have no implementable dependency.
+because they are not taken by the average undergraduate at MIT and also have no implementable dependency.*
 
-The graphs vary in usefulness. For some majors, almost all of the classes have no prereqs or only require instructor permission. I completely excluded Course 21 for this reason, it's graph was essentially empty. I also didn' include Course 3: Materials Science, since many classes have prereqs that don't exist. 
+The graphs vary in usefulness. For some majors, almost all of the classes have no prereqs or only require instructor permission. I completely excluded Course 21 for this reason, it's graph was essentially empty. I also didn' include Course 3: Materials Science, since many classes have prereqs that don't exist.*
 
 
