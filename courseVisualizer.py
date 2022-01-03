@@ -1,38 +1,14 @@
 from igraph import *
 import plotly.graph_objects as go
-from catalogScraper import generateClassesPrereqs
-
-def removeNonCourse(course, classesDict):
-    newClassesDict = {}
-    for className in classesDict:
-        subClasses = []
-        for subClass in classesDict[className]:
-            checkString = str(course)+'.'
-            if subClass[:len(checkString)] == checkString:
-                subClasses.append(subClass)
-        newClassesDict[className] = subClasses
-    return newClassesDict
-
-def removeNoConnections(classesDict):
-    classConnected = {i:False for i in classesDict.keys()}
-    for className in classesDict:
-        for parent in classesDict[className]:
-            classConnected[className] = True
-            classConnected[parent] = True
-    newClassesDict = {}
-    for className in classConnected:
-        if classConnected[className]:
-            newClassesDict[className] = classesDict[className]
-    return newClassesDict
-
-def generateCleanData(course, courseExceptions):
-    classesDict = generateClassesPrereqs(course, courseExceptions)
-    classesDict = removeNonCourse(course, classesDict)
-    classesDict = removeNoConnections(classesDict)
-    return classesDict
+from dataCleaning import generateCleanData
+import re
+from plotly.offline import plot
 
 
-def plotCourseGraph(courseNumber, classesDict, showPlot = True):
+
+
+
+def plotCourseGraph(courseNumber, classesDict, classMapping):
 
     v_label = list(classesDict.keys())
     nr_vertices = len(classesDict.keys())
@@ -40,7 +16,6 @@ def plotCourseGraph(courseNumber, classesDict, showPlot = True):
 
     def buildEdges(classes, classesDict):
         classVertMap = {classes[i]:i for i in range(len(classes))}
-        print(classVertMap)
         edgeList = []
         for className in classesDict:
             for parent in classesDict[className]:
@@ -75,7 +50,10 @@ def plotCourseGraph(courseNumber, classesDict, showPlot = True):
 
     labels = v_label
 
+    URLs, descs = getURLs_Desc(labels, classMapping)
+
     fig = go.Figure()
+
 
     fig.add_trace(go.Scatter(x=Xe,
                     y=Ye,
@@ -84,22 +62,25 @@ def plotCourseGraph(courseNumber, classesDict, showPlot = True):
                     hoverinfo='none'
                     ))
 
+
+    bubble_color = '#488214'
     fig.add_trace(go.Scatter(x=Xn,
                     y=Yn,
                     mode='markers',
                     name='bla',
                     marker=dict(symbol='circle-dot',
-                                    size=30,
-                                    color='#6175c1',    #'#DB4551',
-                                    line=dict(color='rgb(50,50,50)', width=1)
+                                    size=40,
+                                    color=bubble_color,    #'#DB4551',
+                                    line=dict(color='rgb(50,50,50)', width=0.5)
                                     ),
-                    text=labels,
+                    text=descs,
                     hoverinfo='text',
-                    opacity=0.95
+                    opacity=0.8,
+                    customdata = URLs
                     ))
 
 
-    def make_annotations(pos, text, font_size=10, font_color='rgb(250,250,250)'):
+    def make_annotations(pos, text, font_size=10, font_color='#FFFFFF'):
         L=len(pos)
         if len(text)!=L:
             raise ValueError('The lists pos and text must have the same len')
@@ -121,11 +102,11 @@ def plotCourseGraph(courseNumber, classesDict, showPlot = True):
                 showgrid=False,
                 showticklabels=False,
                 )
-    graphTitle = 'Dependency Graph for Course ' + str(courseNumber)
+    graphTitle = 'Prereq Map for Course  ' + str(courseNumber)
 
     fig.update_layout(title= graphTitle,
                 annotations=make_annotations(position, v_label),
-                font_size=12,
+                font_size=25,
                 showlegend=False,
                 xaxis=axis,
                 yaxis=axis,
@@ -134,14 +115,57 @@ def plotCourseGraph(courseNumber, classesDict, showPlot = True):
                 plot_bgcolor='rgb(248,248,248)'
                 )
 
-    fig.write_image("course-"+str(courseNumber)+'-graph.png') 
-    if showPlot:
-        fig.show()
+    plot_div = plot(fig, output_type='div', include_plotlyjs=True)
 
+    # Get id of html div element that looks like
+    # <div id="301d22ab-bfba-4621-8f5d-dc4fd855bb33" ... >
+    res = re.search('<div id="([^"]*)"', plot_div)
+    div_id = res.groups()[0]
+
+    # Build JavaScript callback for handling clicks
+    # and opening the URL in the trace's customdata 
+    js_callback = """
+    <script>
+    var plot_element = document.getElementById("{div_id}");
+    plot_element.on('plotly_click', function(data){{
+        console.log(data);
+        var point = data.points[0];
+        if (point) {{
+            console.log(point.customdata);
+            window.open(point.customdata);
+        }}
+    }})
+    </script>
+    """.format(div_id=div_id)
+
+    # Build HTML string
+    html_str = """
+    <html>
+    <body>
+    {plot_div}
+    {js_callback}
+    </body>
+    </html>
+    """.format(plot_div=plot_div, js_callback=js_callback)
+
+    # Write out HTML file
+    filename = 'html-output/course-'+str(courseNumber)+'-graph.html'
+    with open(filename, 'w') as f:
+        f.write(html_str)
+
+
+def getURLs_Desc(classLabels, classMapping):
+    URLs = []
+    descs = []
+    for label in classLabels:
+        desc, URL = classMapping[label]
+        URLs.append(URL)
+        descs.append(desc)
+    return URLs, descs
 
 
 
 if __name__ == "__main__" :
     course8exceptions = {'8.01':['8.02', '8.021', '8.022', '8.282'], '8.02':['8.03', '8.033']}
-    classesDict = generateCleanData(8, course8exceptions)
-    plotCourseGraph(8, classesDict, False)
+    classesDict, classMapping = generateCleanData(8, course8exceptions)
+    plotCourseGraph(8, classesDict,classMapping)
