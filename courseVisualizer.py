@@ -8,7 +8,7 @@ from plotly.offline import plot
 
 
 
-def plotCourseGraph(courseNumber, classesDict, classMapping):
+def plotCourseGraph(courseNumber, classesDict, classMapping, root = 0, sizing = 'large', bubble_color = '#488214'):
 
     v_label = list(classesDict.keys())
     nr_vertices = len(classesDict.keys())
@@ -28,9 +28,13 @@ def plotCourseGraph(courseNumber, classesDict, classMapping):
 
     G.add_vertices(range(0,nr_vertices))
     G.add_edges(edges)
+    
+    print(root)
+    if isinstance(root,str):
+        root = v_label.index(root)
+        print(root)
 
-
-    lay = G.layout_reingold_tilford(mode="in", root=0)
+    lay = G.layout_reingold_tilford(mode="in", root=root)
 
     position = {k: lay[k] for k in range(nr_vertices)}
     Y = [lay[k][1] for k in range(nr_vertices)]
@@ -44,6 +48,8 @@ def plotCourseGraph(courseNumber, classesDict, classMapping):
     Yn = [2*M-position[k][1] for k in range(L)]
     Xe = []
     Ye = []
+
+
     for edge in E:
         Xe+=[position[edge[0]][0],position[edge[1]][0], None]
         Ye+=[2*M-position[edge[0]][1],2*M-position[edge[1]][1], None]
@@ -62,14 +68,23 @@ def plotCourseGraph(courseNumber, classesDict, classMapping):
                     hoverinfo='none'
                     ))
 
+    if sizing == 'large':
+        bubble_size = 40
+        font_size = 10
+    elif sizing == 'regular':
+        bubble_size = 30
+        font_size = 8
+    else: #sizing = 'small'
+        bubble_size = 17
+        font_size = 5
 
-    bubble_color = '#488214'
+   
     fig.add_trace(go.Scatter(x=Xn,
                     y=Yn,
                     mode='markers',
                     name='bla',
                     marker=dict(symbol='circle-dot',
-                                    size=40,
+                                    size=bubble_size,
                                     color=bubble_color,    #'#DB4551',
                                     line=dict(color='rgb(50,50,50)', width=0.5)
                                     ),
@@ -80,7 +95,7 @@ def plotCourseGraph(courseNumber, classesDict, classMapping):
                     ))
 
 
-    def make_annotations(pos, text, font_size=10, font_color='#FFFFFF'):
+    def make_annotations(pos, text, font_size=font_size, font_color='#FFFFFF'):
         L=len(pos)
         if len(text)!=L:
             raise ValueError('The lists pos and text must have the same len')
@@ -166,6 +181,21 @@ def getURLs_Desc(classLabels, classMapping):
 
 
 if __name__ == "__main__" :
-    course8exceptions = {'8.01':['8.02', '8.021', '8.022', '8.282'], '8.02':['8.03', '8.033']}
-    classesDict, classMapping = generateCleanData(8, course8exceptions)
-    plotCourseGraph(8, classesDict,classMapping)
+    courseExceptions = {i:{} for i in range(1,25)}
+    courseExceptions[8] = {'8.01':['8.02', '8.021', '8.022', '8.282', '8.223'], '8.02':['8.03', '8.033']}
+    courseExceptions[18] = {'18.01':['18.02', '18.022', '18.062', '18.095'],
+                            '18.02': ['18.03', '18.032','18.04', '18.05', '18.06', '18.061', '18.075', '18.0751',
+                                    '18.085', '18.0851', '18.086', '18.0861', '18.100','18.1001', '18.1002', '18.211','18.300',
+                                    '18.330', '18.352']}
+    courseExceptions[5] = {'5.111':['5.12', '5.24', '5.301', '5.351']}
+    courseExceptions[7] = {'7.012':['7.03', '7.05', '7.08']}
+    courses = [(1, 'large', 0), (2, 'small', 0), (4,'regular', 0), (5, 'large', '5.111'), (6, 'small', 0),
+                (7, 'large', '7.012'), (8, 'large', 0), (9, 'large', 0), (10, 'regular', '10.10'), (11, 'large', 0),
+                (12, 'regular', 0), (14, 'small', '14.01'), (15, 'small', 0), (16, 'large', 0), (17, 'large', 0),
+                (18, 'small', 0), (20, 'large', 0), (22, 'large', 0), (24, 'large', 0)]
+    course = courses[-1][0]
+    sizing = courses[-1][1]
+    root = courses[-1][2]
+    classesDict, classMapping = generateCleanData(course, courseExceptions[course])
+    print(classesDict)
+    plotCourseGraph(course, classesDict,classMapping, sizing=sizing, root = root)
